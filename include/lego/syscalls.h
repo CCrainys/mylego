@@ -139,6 +139,7 @@ asmlinkage long sys_mkdir(const char __user *filename, umode_t mode);
 asmlinkage long sys_rmdir(const char __user *pathname);
 
 asmlinkage long sys_chdir(const char __user *pathname);
+asmlinkage long sys_fadvise64(int fd, off_t offset, off_t len, int advice);
 
 asmlinkage long sys_getdents(unsigned int fd,
 			struct lego_dirent __user *dirent, unsigned int count);

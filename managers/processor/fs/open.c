@@ -30,6 +30,9 @@ struct file *fdget(int fd)
 	spin_lock(&files->file_lock);
 	if (likely(test_bit(fd, files->fd_bitmap))) {
 		filp = files->fd_array[fd];
+		if (!filp){
+			pr_info("fd=%d not found!!!", fd);
+		}
 		BUG_ON(!filp);
 		get_file(filp);
 	}
@@ -171,7 +174,7 @@ static long do_sys_open(int dfd, const char __user *pathname, int flags, umode_t
 	struct file *f;
 
 	fd = get_absolute_pathname(dfd, kname, pathname);
-	pr_info("Opening %s; abs:%s\n", pathname, kname);
+	
 	if (unlikely(fd < 0))
 		goto out;
 
@@ -246,6 +249,9 @@ static long do_sys_open(int dfd, const char __user *pathname, int flags, umode_t
 put:
 	put_file(f);
 out:
+	if (1){
+		pr_info("Opening %s; abs:%s, fd=%d\n", pathname, kname, ret);
+	}
 	return fd;
 }
 
@@ -433,4 +439,8 @@ SYSCALL_DEFINE2(access, const char __user *, filename, int, mode)
 #else
 	return p2s_access(kname, mode);
 #endif
+}
+
+SYSCALL_DEFINE4(fadvise64, int, fd, off_t, offset, off_t, len, int, advice){
+	return 0;
 }

@@ -148,8 +148,12 @@ strcat:
 			if (k_pathname[strlen(k_pathname) - 1] != '/')
 				strlcat(k_pathname, "/", FILENAME_LEN_DEFAULT);
 		}
-
-		strlcat(k_pathname, k_buff, FILENAME_LEN_DEFAULT);
+		if (strncmp(k_buff, "./", 2) == 0){
+			strlcat(k_pathname, k_buff + 2, FILENAME_LEN_DEFAULT);
+		}
+		else {
+			strlcat(k_pathname, k_buff, FILENAME_LEN_DEFAULT);
+		}
 	}
 	if (f)
 		put_file(f);

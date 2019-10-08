@@ -527,6 +527,15 @@ static struct files_struct *dup_fd(struct files_struct *oldf)
 	return newf;
 }
 
+static int copy_fs(struct task_struct *tsk){
+	strcpy(tsk->fs.cwd, current->fs.cwd);
+	strcpy(tsk->fs.root, current->fs.root);
+	memcpy((void*)(&tsk->fs.lock), (void*)(&current->fs.lock), sizeof(tsk->fs.lock));
+	tsk->fs.umask = current->fs.umask;
+	tsk->fs.users = current->fs.users;
+	return 0;
+}
+
 static int copy_files(unsigned long clone_flags, struct task_struct *tsk)
 {
 	struct files_struct *oldf, *newf;
@@ -741,10 +750,15 @@ struct task_struct *copy_process(unsigned long clone_flags,
 	p->start_time = ktime_get_ns();
 	p->real_start_time = ktime_get_boot_ns();
 	p->pagefault_disabled = 0;
+	p->fs = current->fs;
 
 	/*
 	 * Now do the dirty work.
 	 */
+
+	retval = copy_fs(p);
+	if (retval < 0)
+		goto out_free;
 
 	retval = copy_creds(p, clone_flags);
 	if (retval < 0)
@@ -984,6 +998,9 @@ pid_t do_fork(unsigned long clone_flags,
 
 	if (clone_flags & CLONE_VFORK)
 		wait_for_vfork_done(p, &vfork);
+
+
+	pr_info("[%d] forks [%d]", current->pid, p->pid);
 
 	return p->pid;
 }

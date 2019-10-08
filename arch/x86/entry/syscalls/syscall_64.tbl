@@ -108,6 +108,7 @@
 213	common	epoll_create		sys_epoll_create
 218     common  set_tid_address         sys_set_tid_address
 219	common	restart_syscall		sys_restart_syscall
+221 64      fadvise64           sys_fadvise64
 228	common	clock_gettime		sys_clock_gettime
 231	common	exit_group		sys_exit_group
 232	common	epoll_wait		sys_epoll_wait
