@@ -71,7 +71,7 @@ int vprintk(const char *fmt, va_list args);
 #define pr_info(fmt, ...)					\
 	printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
 #define pr_debug(fmt, ...)					\
-	printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+	printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
 #define pr_cont(fmt,...)					\
 	printk(KERN_CONT pr_fmt(fmt), ##__VA_ARGS__)
 

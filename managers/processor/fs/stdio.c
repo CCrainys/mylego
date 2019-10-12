@@ -12,6 +12,7 @@
 #include <lego/sched.h>
 #include <processor/fs.h>
 #include <processor/pcache_stat.h>
+#include <lego/fit_ibapi.h>
 
 static int stdio_file_open(struct file *f)
 {
@@ -24,6 +25,7 @@ static ssize_t stdio_file_read(struct file *f, char __user *buf,
 {
 	WARN_ONCE(1, "Process wants STDIN!");
 	print_pcache_events();
+	dump_ib_stats();
 	return -EIO;
 }
 

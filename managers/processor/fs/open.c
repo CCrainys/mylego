@@ -250,7 +250,7 @@ put:
 	put_file(f);
 out:
 	if (1){
-		pr_info("Opening %s; abs:%s, fd=%d\n", pathname, kname, ret);
+		pr_info("Opening %s; abs:%s, fd=%d\n", pathname, kname, fd);
 	}
 	return fd;
 }

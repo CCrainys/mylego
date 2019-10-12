@@ -41,7 +41,7 @@ static inline void munmap_debug(const char *fmt, ...) { }
 
 #ifdef CONFIG_DEBUG_MREMAP
 #define mremap_debug(fmt, ...)						\
-	pr_debug("%s(cpu%d): " fmt "\n", __func__, smp_processor_id(),	\
+	pr_info("%s(cpu%d): " fmt "\n", __func__, smp_processor_id(),	\
 		__VA_ARGS__)
 #else
 static inline void mremap_debug(const char *fmt, ...) { }
